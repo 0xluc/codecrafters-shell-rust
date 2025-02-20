@@ -8,4 +8,8 @@ fn main() {
     let stdin = io::stdin();
     let mut input = String::new();
     stdin.read_line(&mut input).unwrap();
+    println!(
+        "{}: command not found",
+        input[0..input.len() - 1].to_string()
+    );
 }
