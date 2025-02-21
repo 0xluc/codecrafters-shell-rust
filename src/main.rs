@@ -36,7 +36,7 @@ fn main() {
                 for path in &path_vec {
                     match fs::metadata(format!("{path}/{no_type_string}")) {
                         Ok(_) => {
-                            println!("{} is {}", no_type_string, path);
+                            println!("{} is {}/{}", no_type_string, path, no_type_string);
                             continue 'outer;
                         }
                         Err(_) => {}
