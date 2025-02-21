@@ -4,6 +4,7 @@ use std::fs;
 use std::io::{self, Write};
 
 fn main() {
+    let methods = ["exit", "echo", "type"];
     let mut paths = String::from("");
     match env::var("PATH") {
         Ok(v) => paths = v,
@@ -33,6 +34,10 @@ fn main() {
             }
             "type" => {
                 let no_type_string = &command_tokens[1..command_tokens.len()].join(" ");
+                if methods.iter().any(|&method| method == no_type_string) {
+                    println!("{} is a shell builtin", no_type_string);
+                    continue;
+                }
                 for path in &path_vec {
                     match fs::metadata(format!("{path}/{no_type_string}")) {
                         Ok(_) => {
