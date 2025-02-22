@@ -50,6 +50,10 @@ fn main() {
             }
             _ => {
                 if command_tokens.len() > 0 {
+                    println!(
+                        "Program was passed {} args (including program name).",
+                        command_tokens.len()
+                    );
                     for i in 0..command_tokens.len() {
                         if i == 0 {
                             println!("Arg #{} (program name): {}", i, command_tokens[i]);
