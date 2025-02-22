@@ -1,6 +1,5 @@
 use std::env;
 use std::fs;
-#[allow(unused_imports)]
 use std::io::{self, Write};
 
 fn main() {
@@ -50,6 +49,15 @@ fn main() {
                 println!("{}: not found", no_type_string);
             }
             _ => {
+                if command_tokens.len() > 0 {
+                    for i in 0..command_tokens.len() {
+                        if i == 0 {
+                            println!("Arg #{} (program name): {}", i, command_tokens[i]);
+                        } else {
+                            println!("Arg #{}: {}", i, command_tokens[i]);
+                        }
+                    }
+                }
                 println!("{}: command not found", command);
             }
         }
