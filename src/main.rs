@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::io::{self, Write};
+use std::process::Command;
 
 fn main() {
     let methods = ["exit", "echo", "type"];
@@ -49,19 +50,25 @@ fn main() {
                 println!("{}: not found", no_type_string);
             }
             _ => {
-                if command_tokens.len() > 0 {
-                    println!(
-                        "Program was passed {} args (including program name).",
-                        command_tokens.len()
-                    );
-                    for i in 0..command_tokens.len() {
-                        if i == 0 {
-                            println!("Arg #{} (program name): {}", i, command_tokens[i]);
-                        } else {
-                            println!("Arg #{}: {}", i, command_tokens[i]);
+                let command_program = &command_tokens[0];
+                if command_tokens.len() > 1 {
+                    for path in &path_vec {
+                        match fs::metadata(format!("{path}/{command_program}")) {
+                            Ok(_) => {
+                                if let Some((program, rest)) = command_tokens.split_first() {
+                                    let output = Command::new(program)
+                                        .args(rest)
+                                        .output()
+                                        .expect("Failed to execute!");
+                                    print!("{}", String::from_utf8_lossy(output.stdout.as_slice()));
+                                }
+                                continue 'outer;
+                            }
+                            Err(_) => {}
                         }
                     }
                 }
+
                 println!("{}: command not found", command);
             }
         }
