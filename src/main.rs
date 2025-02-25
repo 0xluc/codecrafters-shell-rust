@@ -49,6 +49,12 @@ fn main() {
                 }
                 println!("{}: not found", no_type_string);
             }
+            "pwd" => match std::env::current_exe() {
+                Ok(v) => {
+                    println!("{}", v.to_string_lossy());
+                }
+                Err(_) => {}
+            },
             _ => {
                 let command_program = &command_tokens[0];
                 if command_tokens.len() > 1 {
