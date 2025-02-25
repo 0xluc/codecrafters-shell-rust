@@ -4,7 +4,7 @@ use std::io::{self, Write};
 use std::process::Command;
 
 fn main() {
-    let methods = ["exit", "echo", "type"];
+    let methods = ["exit", "echo", "type", "pwd"];
     let mut paths = String::from("");
     match env::var("PATH") {
         Ok(v) => paths = v,
