@@ -49,7 +49,7 @@ fn main() {
                 }
                 println!("{}: not found", no_type_string);
             }
-            "pwd" => match std::env::current_exe() {
+            "pwd" => match std::env::current_dir() {
                 Ok(v) => {
                     println!("{}", v.to_string_lossy());
                 }
