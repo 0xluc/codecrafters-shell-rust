@@ -4,7 +4,7 @@ use std::io::{self, Write};
 use std::process::Command;
 
 fn main() {
-    let methods = ["exit", "echo", "type", "pwd"];
+    let methods = ["exit", "echo", "type", "pwd", "cd"];
     let mut paths = String::from("");
     match env::var("PATH") {
         Ok(v) => paths = v,
@@ -54,6 +54,12 @@ fn main() {
                     println!("{}", v.to_string_lossy());
                 }
                 Err(_) => {}
+            },
+            "cd" => match std::env::set_current_dir(&command_tokens[1]) {
+                Ok(_) => {}
+                Err(_) => {
+                    println!("cd: {}: No such file or directory", &command_tokens[1])
+                }
             },
             _ => {
                 let command_program = &command_tokens[0];
