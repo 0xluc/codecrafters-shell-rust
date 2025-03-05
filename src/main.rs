@@ -55,12 +55,33 @@ fn main() {
                 }
                 Err(_) => {}
             },
-            "cd" => match std::env::set_current_dir(&command_tokens[1]) {
-                Ok(_) => {}
-                Err(_) => {
-                    println!("cd: {}: No such file or directory", &command_tokens[1])
+            "cd" => {
+                if &command_tokens[1] == &"~" {
+                    let mut home_path = String::from("");
+                    match env::var("HOME") {
+                        Ok(v) => {
+                            home_path = v;
+                            match std::env::set_current_dir(&home_path) {
+                                Ok(_) => {}
+                                Err(_) => {
+                                    println!(
+                                        "cd: {}: No such file or directory",
+                                        &command_tokens[1]
+                                    )
+                                }
+                            }
+                        }
+                        Err(e) => println!("{}", e),
+                    }
+                } else {
+                    match std::env::set_current_dir(&command_tokens[1]) {
+                        Ok(_) => {}
+                        Err(_) => {
+                            println!("cd: {}: No such file or directory", &command_tokens[1])
+                        }
+                    }
                 }
-            },
+            }
             _ => {
                 let command_program = &command_tokens[0];
                 if command_tokens.len() > 1 {
