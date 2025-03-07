@@ -29,7 +29,12 @@ fn main() {
                 if command_tokens.len() < 2 {
                     println!("");
                 } else {
-                    println!("{}", &command_tokens[1..command_tokens.len()].join(" "));
+                    let output = Command::new("sh")
+                        .arg("-c")
+                        .arg(&command)
+                        .output()
+                        .expect("Failed to execute!");
+                    print!("{}", String::from_utf8_lossy(output.stdout.as_slice()));
                 }
             }
             "type" => {
