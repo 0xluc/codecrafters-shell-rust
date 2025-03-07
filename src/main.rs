@@ -94,8 +94,9 @@ fn main() {
                         match fs::metadata(format!("{path}/{command_program}")) {
                             Ok(_) => {
                                 if let Some((program, rest)) = command.split_once(" ") {
-                                    let output = Command::new(program)
-                                        .arg(rest)
+                                    let output = Command::new("sh")
+                                        .arg("-c")
+                                        .arg(&command)
                                         .output()
                                         .expect("Failed to execute!");
                                     print!("{}", String::from_utf8_lossy(output.stdout.as_slice()));
