@@ -89,13 +89,13 @@ fn main() {
             }
             _ => {
                 let command_program = &command_tokens[0];
-                if command_tokens.len() > 1 {
+                if command_tokens.len() >= 1 {
                     for path in &path_vec {
                         match fs::metadata(format!("{path}/{command_program}")) {
                             Ok(_) => {
-                                if let Some((program, rest)) = command_tokens.split_first() {
+                                if let Some((program, rest)) = command.split_once(" ") {
                                     let output = Command::new(program)
-                                        .args(rest)
+                                        .arg(rest)
                                         .output()
                                         .expect("Failed to execute!");
                                     print!("{}", String::from_utf8_lossy(output.stdout.as_slice()));
